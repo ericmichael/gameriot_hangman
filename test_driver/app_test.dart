@@ -102,8 +102,6 @@ void main() {
         final findGuessTextField = find.byValueKey('guess-textfield');
         final guessLetterBtnFinder = find.byValueKey('guess-letter-btn');
         final findWinText = find.byValueKey('win-text');
-        final newGameBtn = find.byValueKey('new-game-btn');
-
         await driver.tap(findGuessTextField);
         await driver.enterText('a');
         await driver.waitFor(find.text('a'));
@@ -111,15 +109,22 @@ void main() {
         await driver.tap(guessLetterBtnFinder);
 
         expect(await driver.getText(findWinText), 'You Win');
+      });
+
+      test('Scenario: should be able to start a new game after winning a game', () async{
+        final newGameBtn = find.byValueKey('new-game-btn');
 
         await driver.tap(newGameBtn);
+
+        final guessLetterTextFindert = find.byValueKey('guess-letter-text');
+
+        expect(await driver.getText(guessLetterTextFindert), "Guess Letter");
       });
 
       test('Scenario: game over because I run out of guesses', () async {
         final findGuessTextField = find.byValueKey('guess-textfield');
         final guessLetterBtnFinder = find.byValueKey('guess-letter-btn');
         final findLoseText = find.byValueKey('lose-text');
-        final newGameBtn = find.byValueKey('new-game-btn');
 
         List<String> wrongGuesses = ['q', 'w', 'e', 'r', 't', 'y', 'u'];
 
@@ -133,7 +138,16 @@ void main() {
 
         expect(await driver.getText(findLoseText), 'You Lose');
 
+      });
+
+      test('Scenario: should be able to start a new game after losing a game', () async{
+        final newGameBtn = find.byValueKey('new-game-btn');
+
         await driver.tap(newGameBtn);
+
+        final guessLetterTextFindert = find.byValueKey('guess-letter-text');
+
+        expect(await driver.getText(guessLetterTextFindert), "Guess Letter");
       });
 
       test('Scenario: guess correct letter that I have already tried',
